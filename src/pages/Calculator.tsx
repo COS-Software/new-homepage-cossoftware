@@ -1,15 +1,141 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { 
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "@/components/ui/select";
+import {
+  RadioGroup,
+  RadioGroupItem
+} from "@/components/ui/radio-group";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 import { 
   Home, 
   ArrowLeft, 
   Menu,
-  X
+  X,
+  Calculator as CalculatorIcon,
+  Clock,
+  DollarSign
 } from "lucide-react";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+
+// Constants for calculation
+const HOURS_PER_FEATURE = 5;
+const WORK_HOURS_PER_DAY = 5;
+const HOURLY_RATE = 80; // R$
+
+// Form schema
+const formSchema = z.object({
+  serviceType: z.enum(["team", "project"]),
+  applicationType: z.string(),
+  detailLevel: z.enum(["simple", "detailed"]),
+  projectName: z.string().min(3, {
+    message: "Nome do projeto deve ter pelo menos 3 caracteres",
+  }),
+  projectDescription: z.string().min(10, {
+    message: "Por favor forneça uma descrição mais detalhada",
+  }),
+  developerCount: z.coerce.number().min(1, {
+    message: "É necessário pelo menos 1 desenvolvedor",
+  }),
+  featureCount: z.coerce.number().min(1, {
+    message: "É necessário pelo menos 1 funcionalidade",
+  }),
+  integrationCount: z.coerce.number().optional(),
+  simultaneousAccessCount: z.coerce.number().optional(),
+  database: z.string().optional(),
+  serverCount: z.coerce.number().optional(),
+  notificationCount: z.coerce.number().optional(),
+});
+
+type FormValues = z.infer<typeof formSchema>;
 
 const Calculator = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [showResults, setShowResults] = useState(false);
+  const [calculation, setCalculation] = useState({
+    cost: 0,
+    timeline: 0
+  });
+
+  const form = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      serviceType: "project",
+      detailLevel: "simple",
+      developerCount: 1,
+      featureCount: 1,
+    },
+  });
+
+  const detailLevel = form.watch("detailLevel");
+  const serviceType = form.watch("serviceType");
+
+  const calculateProjectCost = (data: FormValues) => {
+    // Calculate project cost
+    const cost = data.featureCount * HOURS_PER_FEATURE * (data.developerCount * HOURLY_RATE);
+    
+    // Calculate timeline in days
+    const timeline = Math.ceil((data.featureCount * (HOURS_PER_FEATURE / data.developerCount)) / WORK_HOURS_PER_DAY);
+    
+    setCalculation({
+      cost,
+      timeline
+    });
+    
+    setShowResults(true);
+  };
+
+  const onSubmit = (data: FormValues) => {
+    calculateProjectCost(data);
+  };
+
+  const applicationTypes = [
+    { value: "multi", label: "Multiplataforma (várias opções)" },
+    { value: "web", label: "Aplicativo Web" },
+    { value: "mobile", label: "Aplicativo Mobile" },
+    { value: "site", label: "Site institucional" },
+    { value: "integration", label: "Integração de Sistemas" },
+    { value: "automation", label: "Aplicação de automação" },
+    { value: "desktop", label: "Aplicação Desktop" },
+    { value: "games", label: "Jogos e Aplicações Lúdicas" },
+    { value: "other", label: "Outros (especificar)" },
+  ];
+
+  const databaseOptions = [
+    { value: "mysql", label: "MySQL" },
+    { value: "postgresql", label: "PostgreSQL" },
+    { value: "mongodb", label: "MongoDB" },
+    { value: "sqlserver", label: "SQL Server" },
+    { value: "oracle", label: "Oracle" },
+    { value: "other", label: "Outro" },
+  ];
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -37,8 +163,8 @@ const Calculator = () => {
             </a>
             <a href="#calculator" className="nav-link">
               <span className="flex items-center gap-1">
-                <ArrowLeft size={16} />
-                Voltar
+                <CalculatorIcon size={16} />
+                Calculadora
               </span>
             </a>
           </nav>
@@ -66,35 +192,349 @@ const Calculator = () => {
                   Home
                 </span>
               </a>
+              <a 
+                href="#calculator" 
+                className="block py-2 nav-link"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <span className="flex items-center gap-2">
+                  <CalculatorIcon size={16} />
+                  Calculadora
+                </span>
+              </a>
             </div>
           </div>
         )}
       </header>
 
       <main className="flex-grow pt-20">
-        <section className="section-padding bg-white">
-          <div className="container mx-auto">
+        <section id="calculator" className="section-padding bg-white">
+          <div className="container mx-auto px-4 md:px-6 py-12">
             <div className="max-w-3xl mx-auto">
               <h1 className="text-3xl md:text-4xl font-bold mb-8 text-center">Calculadora de Serviços</h1>
               <p className="text-lg text-center mb-12">
-                Esta página está em desenvolvimento. Em breve você poderá calcular o custo estimado dos nossos serviços.
+                Calcule o custo estimado do seu projeto baseado nas suas necessidades
               </p>
               
-              <div className="bg-gray-50 p-8 rounded-lg shadow-md">
-                <h2 className="text-xl font-semibold mb-6">Página em Construção</h2>
-                <p className="mb-6">
-                  Estamos trabalhando para disponibilizar uma calculadora de serviços que permitirá
-                  estimar o custo do seu projeto com base em diversos parâmetros.
-                </p>
-                <div className="flex justify-center">
-                  <Button
-                    onClick={() => window.location.href = '/'}
-                    className="button-primary"
-                  >
-                    Voltar para a Home
-                  </Button>
-                </div>
+              <div className="bg-gray-50 p-8 rounded-lg shadow-md mb-8 animate-fade-in">
+                <Form {...form}>
+                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                    <div className="space-y-6">
+                      <FormField
+                        control={form.control}
+                        name="serviceType"
+                        render={({ field }) => (
+                          <FormItem className="space-y-3">
+                            <FormLabel className="text-lg font-medium">Tipo de Serviço</FormLabel>
+                            <FormControl>
+                              <RadioGroup
+                                onValueChange={field.onChange}
+                                defaultValue={field.value}
+                                className="flex flex-col space-y-1"
+                              >
+                                <div className="flex items-center space-x-2">
+                                  <RadioGroupItem value="team" id="team" />
+                                  <label htmlFor="team" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                                    Escalar um time de desenvolvedores para seu projeto
+                                  </label>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                  <RadioGroupItem value="project" id="project" />
+                                  <label htmlFor="project" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                                    Contratar nosso serviço para um projeto
+                                  </label>
+                                </div>
+                              </RadioGroup>
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="applicationType"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-lg font-medium">Tipo de Aplicação</FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                              <FormControl>
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Selecione o tipo de aplicação" />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                {applicationTypes.map((type) => (
+                                  <SelectItem key={type.value} value={type.value}>
+                                    {type.label}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="detailLevel"
+                        render={({ field }) => (
+                          <FormItem className="space-y-3">
+                            <FormLabel className="text-lg font-medium">Nível de Detalhamento</FormLabel>
+                            <FormControl>
+                              <RadioGroup
+                                onValueChange={field.onChange}
+                                defaultValue={field.value}
+                                className="flex flex-col space-y-1"
+                              >
+                                <div className="flex items-center space-x-2">
+                                  <RadioGroupItem value="simple" id="simple" />
+                                  <label htmlFor="simple" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                                    Simples
+                                  </label>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                  <RadioGroupItem value="detailed" id="detailed" />
+                                  <label htmlFor="detailed" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                                    Detalhado
+                                  </label>
+                                </div>
+                              </RadioGroup>
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <div className="border-t pt-6">
+                        <h3 className="text-lg font-medium mb-4">Informações do Projeto</h3>
+                        <div className="space-y-4">
+                          <FormField
+                            control={form.control}
+                            name="projectName"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Nome do Projeto</FormLabel>
+                                <FormControl>
+                                  <Input placeholder="Ex: Sistema de Gestão Empresarial" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="projectDescription"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>Descrição do Projeto</FormLabel>
+                                <FormControl>
+                                  <Textarea
+                                    placeholder="Descreva brevemente o que o seu projeto deve fazer"
+                                    className="resize-none h-24"
+                                    {...field}
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <FormField
+                              control={form.control}
+                              name="developerCount"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Quantidade de Desenvolvedores</FormLabel>
+                                  <FormControl>
+                                    <Input type="number" min="1" {...field} />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+
+                            <FormField
+                              control={form.control}
+                              name="featureCount"
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Quantidade de Funcionalidades</FormLabel>
+                                  <FormControl>
+                                    <Input type="number" min="1" {...field} />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+
+                          {detailLevel === "detailed" && (
+                            <div className="space-y-4 animate-fade-in">
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <FormField
+                                  control={form.control}
+                                  name="integrationCount"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Quantidade de Integrações</FormLabel>
+                                      <FormControl>
+                                        <Input type="number" min="0" {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+
+                                <FormField
+                                  control={form.control}
+                                  name="simultaneousAccessCount"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Acessos Simultâneos</FormLabel>
+                                      <FormControl>
+                                        <Input type="number" min="1" {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                              </div>
+
+                              <FormField
+                                control={form.control}
+                                name="database"
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <FormLabel>Banco de Dados</FormLabel>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                      <FormControl>
+                                        <SelectTrigger>
+                                          <SelectValue placeholder="Selecione o banco de dados" />
+                                        </SelectTrigger>
+                                      </FormControl>
+                                      <SelectContent>
+                                        {databaseOptions.map((db) => (
+                                          <SelectItem key={db.value} value={db.value}>
+                                            {db.label}
+                                          </SelectItem>
+                                        ))}
+                                      </SelectContent>
+                                    </Select>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <FormField
+                                  control={form.control}
+                                  name="serverCount"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Quantidade de Servidores</FormLabel>
+                                      <FormControl>
+                                        <Input type="number" min="1" {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+
+                                <FormField
+                                  control={form.control}
+                                  name="notificationCount"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel>Emails/SMS/Notificações</FormLabel>
+                                      <FormControl>
+                                        <Input type="number" min="0" {...field} />
+                                      </FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex justify-center pt-4">
+                      <Button type="submit" className="button-primary px-8 py-6">
+                        Calcular Orçamento
+                      </Button>
+                    </div>
+                  </form>
+                </Form>
               </div>
+
+              {showResults && (
+                <Card className="animate-scale-in">
+                  <CardHeader>
+                    <CardTitle>Resultados do Orçamento</CardTitle>
+                    <CardDescription>
+                      Baseado nas informações fornecidas, segue abaixo nosso orçamento estimado:
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="flex flex-col items-center p-6 bg-gray-50 rounded-lg">
+                        <DollarSign size={48} className="text-primary mb-2" />
+                        <h3 className="text-lg font-semibold mb-1">Orçamento Estimado</h3>
+                        <p className="text-3xl font-bold text-primary">
+                          R$ {calculation.cost.toLocaleString('pt-BR')}
+                        </p>
+                      </div>
+                      
+                      <div className="flex flex-col items-center p-6 bg-gray-50 rounded-lg">
+                        <Clock size={48} className="text-primary mb-2" />
+                        <h3 className="text-lg font-semibold mb-1">Prazo de Entrega</h3>
+                        <p className="text-3xl font-bold text-primary">
+                          {calculation.timeline} {calculation.timeline === 1 ? 'dia' : 'dias'}
+                        </p>
+                      </div>
+                    </div>
+
+                    <Collapsible className="mt-6">
+                      <CollapsibleTrigger className="flex items-center gap-2 text-primary font-medium w-full justify-center py-2">
+                        <span>Ver detalhes do cálculo</span>
+                      </CollapsibleTrigger>
+                      <CollapsibleContent className="p-4 bg-gray-50 rounded-lg mt-2">
+                        <h4 className="font-medium mb-2">Fórmulas utilizadas:</h4>
+                        <div className="space-y-2 text-sm">
+                          <p><strong>Valor do projeto:</strong> Quantidade de funcionalidades × Tempo por funcionalidade × (Número de desenvolvedores × Valor/hora)</p>
+                          <p><strong>Prazo de entrega:</strong> (Quantidade de funcionalidades × (Tempo por funcionalidade ÷ Número de desenvolvedores)) ÷ Horas de trabalho diário</p>
+                          <div className="mt-4 space-y-1">
+                            <p>• Tempo para fazer uma funcionalidade: {HOURS_PER_FEATURE} horas</p>
+                            <p>• Tempo de trabalho diário: {WORK_HOURS_PER_DAY} horas</p>
+                            <p>• Valor da hora do desenvolvedor: R$ {HOURLY_RATE},00</p>
+                          </div>
+                        </div>
+                      </CollapsibleContent>
+                    </Collapsible>
+                  </CardContent>
+                  <CardFooter className="flex flex-col items-center">
+                    <p className="text-center text-sm text-gray-500 mb-4">
+                      Este é apenas um orçamento estimado. Para um orçamento mais preciso, entre em contato conosco.
+                    </p>
+                    <div className="flex flex-col sm:flex-row gap-4">
+                      <Button variant="outline" onClick={() => setShowResults(false)}>
+                        Voltar ao Formulário
+                      </Button>
+                      <a href="/#contact">
+                        <Button>
+                          Entrar em Contato
+                        </Button>
+                      </a>
+                    </div>
+                  </CardFooter>
+                </Card>
+              )}
             </div>
           </div>
         </section>
