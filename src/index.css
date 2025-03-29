@@ -111,4 +111,34 @@
   .contact-item {
     @apply flex items-center space-x-3 mb-4;
   }
+  
+  .animation-delay-500 {
+    animation-delay: 500ms;
+  }
+  
+  .animation-delay-1000 {
+    animation-delay: 1000ms;
+  }
+  
+  .animation-delay-1500 {
+    animation-delay: 1500ms;
+  }
+  
+  .animation-delay-2000 {
+    animation-delay: 2000ms;
+  }
+  
+  .animate-text-shimmer {
+    background: linear-gradient(
+      to right,
+      #3d42f5 20%,
+      #818cf8 30%,
+      #3d42f5 70%
+    );
+    background-size: 200% auto;
+    background-clip: text;
+    text-fill-color: transparent;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 }

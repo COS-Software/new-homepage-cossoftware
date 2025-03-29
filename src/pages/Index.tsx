@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { 
@@ -82,8 +81,8 @@ const Index = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      {/* Header */}
-      <header className={`fixed w-full z-50 transition-all duration-300 ${scrollY > 50 ? 'bg-white shadow-md py-2' : 'py-4'}`}>
+      {/* Header with enhanced transition */}
+      <header className={`fixed w-full z-50 transition-all duration-500 ${scrollY > 50 ? 'bg-white shadow-md py-2' : 'py-4'}`}>
         <div className="container mx-auto px-4 md:px-6 flex justify-between items-center">
           <div className="flex items-center">
             <h1 className="text-2xl font-bold text-primary">COSSOFTWARE</h1>
@@ -144,13 +143,13 @@ const Index = () => {
       </header>
 
       <main>
-        {/* Hero Section */}
-        <section id="home" className="relative min-h-screen flex items-center justify-center bg-gradient-to-b from-white to-gray-100 section-padding pt-32 md:pt-40">
-          <div className="absolute inset-0 bg-[#3498db55] opacity-10"></div>
+        {/* Hero Section with enhanced animations */}
+        <section id="home" className="relative min-h-screen flex items-center justify-center bg-gradient-to-b from-white to-gray-100 section-padding pt-32 md:pt-40 overflow-hidden">
+          <div className="absolute inset-0 bg-bg-effect opacity-10 animate-pulse-slow"></div>
           <div className="container mx-auto px-4">
             <div className="text-center max-w-3xl mx-auto">
               <h1 className="text-4xl md:text-6xl font-bold mb-6 animate-fade-in">
-                Pense. <span className="text-primary">Nós construímos</span> para você.
+                Pense. <span className="text-primary animate-text-shimmer">Nós construímos</span> para você.
               </h1>
               <p className="text-lg md:text-xl text-secondary mb-10 animate-fade-in" style={getAnimationDelay(1)}>
                 Do conceito à execução, entregamos software de alta qualidade, sob medida para você.
@@ -158,9 +157,9 @@ const Index = () => {
               <p className="text-gray-600 mb-10 animate-fade-in" style={getAnimationDelay(2)}>
                 Uma empresa de negócios voltada para a produção de software sob demanda.
               </p>
-              <div className="animate-fade-in" style={getAnimationDelay(3)}>
+              <div className="animate-bounce-subtle" style={getAnimationDelay(3)}>
                 <a href="#calculator">
-                  <Button className="button-primary">
+                  <Button className="button-primary transform transition hover:scale-105">
                     Calculadora de Serviços
                   </Button>
                 </a>
@@ -170,19 +169,21 @@ const Index = () => {
         </section>
 
         {/* About Section */}
-        <section id="about" className="section-padding bg-white">
-          <div className="container mx-auto">
+        <section id="about" className="section-padding bg-white relative overflow-hidden">
+          <div className="absolute -right-20 top-20 w-64 h-64 rounded-full bg-primary/5 animate-float"></div>
+          <div className="absolute -left-20 bottom-20 w-40 h-40 rounded-full bg-secondary/5 animate-float animation-delay-1000"></div>
+          <div className="container mx-auto relative z-10">
             <h2 className="section-title animate-fade-in">Sobre Nós</h2>
             <div className="max-w-3xl mx-auto text-center">
-              <p className="text-lg mb-6 animate-fade-in">
+              <p className="text-lg mb-6 animate-slide-up" style={getAnimationDelay(0)}>
                 A COSSOFTWARE é uma empresa especializada em desenvolvimento de software sob demanda, 
                 oferecendo soluções personalizadas para empresas de todos os tamanhos.
               </p>
-              <p className="text-lg mb-6 animate-fade-in">
+              <p className="text-lg mb-6 animate-slide-up" style={getAnimationDelay(1)}>
                 Desde 2021, temos trabalhado com clientes em diversos setores, transformando ideias em 
                 produtos digitais de alta qualidade que impulsionam negócios.
               </p>
-              <p className="text-lg animate-fade-in">
+              <p className="text-lg animate-slide-up" style={getAnimationDelay(2)}>
                 <span className="font-semibold">Nossa missão:</span> Entregar soluções de software personalizadas 
                 que realmente fazem a diferença para nossos clientes.
               </p>
@@ -191,8 +192,9 @@ const Index = () => {
         </section>
 
         {/* Services Section */}
-        <section id="services" className="section-padding bg-gray-50">
-          <div className="container mx-auto">
+        <section id="services" className="section-padding bg-gray-50 relative overflow-hidden">
+          <div className="absolute -left-32 top-20 w-80 h-80 rounded-full bg-primary/5 animate-float animation-delay-500"></div>
+          <div className="container mx-auto relative z-10">
             <h2 className="section-title animate-fade-in">Nossos Serviços</h2>
             <p className="section-subtitle mb-12 animate-fade-in">
               Soluções de Software Personalizadas para Impulsionar Seu Negócio
@@ -201,10 +203,10 @@ const Index = () => {
               {services.map((service, index) => (
                 <div 
                   key={index} 
-                  className="service-card animate-fade-in" 
-                  style={getAnimationDelay(index % 3)}
+                  className="service-card animate-fade-in hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 hover:border-primary/20" 
+                  style={getAnimationDelay(index)}
                 >
-                  <div className="mb-4">{service.icon}</div>
+                  <div className="mb-4 transform transition-transform duration-300 group-hover:scale-110">{service.icon}</div>
                   <h3 className="text-xl font-semibold mb-2">{service.title}</h3>
                   <p className="text-gray-600">{service.description}</p>
                 </div>
@@ -214,13 +216,14 @@ const Index = () => {
         </section>
 
         {/* Clients Section */}
-        <section id="clients" className="section-padding bg-white">
-          <div className="container mx-auto">
+        <section id="clients" className="section-padding bg-white relative overflow-hidden">
+          <div className="absolute -right-32 bottom-20 w-64 h-64 rounded-full bg-secondary/5 animate-float animation-delay-1500"></div>
+          <div className="container mx-auto relative z-10">
             <h2 className="section-title animate-fade-in">Nossos Clientes</h2>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mt-12">
               {clients.map((client, index) => (
                 <div key={index} className="flex items-center justify-center animate-fade-in" style={getAnimationDelay(index % 4)}>
-                  <div className="client-logo bg-gray-100 h-32 w-full rounded-lg flex items-center justify-center p-6">
+                  <div className="client-logo bg-gray-100 h-32 w-full rounded-lg flex items-center justify-center p-6 transform transition duration-300 hover:shadow-lg">
                     <span className="text-xl font-semibold text-secondary">{client}</span>
                   </div>
                 </div>
@@ -230,10 +233,11 @@ const Index = () => {
         </section>
 
         {/* Contact Section */}
-        <section id="contact" className="section-padding bg-gray-50">
-          <div className="container mx-auto">
+        <section id="contact" className="section-padding bg-gray-50 relative overflow-hidden">
+          <div className="absolute left-1/2 top-0 w-96 h-96 -translate-x-1/2 rounded-full bg-gradient-to-b from-primary/5 to-secondary/5 blur-3xl opacity-30 animate-pulse-slow"></div>
+          <div className="container mx-auto relative z-10">
             <h2 className="section-title animate-fade-in">Entre em Contato</h2>
-            <div className="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-md animate-fade-in">
+            <div className="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-md animate-fade-in transform hover:shadow-lg transition duration-300">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div>
                   <h3 className="text-xl font-semibold mb-6">Informações de Contato</h3>
@@ -294,9 +298,10 @@ const Index = () => {
           </div>
         </section>
 
-        {/* Calculator Section (placeholder) */}
-        <section id="calculator" className="section-padding bg-white">
-          <div className="container mx-auto">
+        {/* Calculator Section */}
+        <section id="calculator" className="section-padding bg-white relative overflow-hidden">
+          <div className="absolute -left-20 top-1/2 w-64 h-64 rounded-full bg-primary/5 animate-float animation-delay-2000"></div>
+          <div className="container mx-auto relative z-10">
             <h2 className="section-title animate-fade-in">Calculadora de Serviços</h2>
             <p className="text-center max-w-3xl mx-auto mb-8 animate-fade-in">
               Esta seção será implementada posteriormente. Aqui os clientes poderão calcular estimativas de preços para nossos serviços.
@@ -305,9 +310,10 @@ const Index = () => {
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
-        <div className="container mx-auto px-4">
+      {/* Footer with enhanced animation */}
+      <footer className="bg-gray-900 text-white py-12 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-20"></div>
+        <div className="container mx-auto px-4 relative z-10">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div>
               <h3 className="text-xl font-bold mb-4">COSSOFTWARE</h3>
