@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { 
@@ -85,7 +86,14 @@ const Index = () => {
       <header className={`fixed w-full z-50 transition-all duration-500 ${scrollY > 50 ? 'bg-white shadow-md py-2' : 'py-4'}`}>
         <div className="container mx-auto px-4 md:px-6 flex justify-between items-center">
           <div className="flex items-center">
-            <h1 className="text-2xl font-bold text-primary">COSSOFTWARE</h1>
+            <div className="flex items-center">
+              <img 
+                src="/lovable-uploads/847c6a8f-772f-4682-a772-75e2022e09ca.png" 
+                alt="COSSOFTWARE" 
+                className="h-10 mr-2"
+              />
+              <h1 className="text-2xl font-bold text-primary">COSSOFTWARE</h1>
+            </div>
           </div>
           
           {/* Desktop Navigation */}
@@ -316,7 +324,14 @@ const Index = () => {
         <div className="container mx-auto px-4 relative z-10">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div>
-              <h3 className="text-xl font-bold mb-4">COSSOFTWARE</h3>
+              <div className="flex items-center mb-4">
+                <img 
+                  src="/lovable-uploads/847c6a8f-772f-4682-a772-75e2022e09ca.png" 
+                  alt="COSSOFTWARE" 
+                  className="h-8 mr-2"
+                />
+                <h3 className="text-xl font-bold">COSSOFTWARE</h3>
+              </div>
               <p className="text-gray-400">
                 Pense. Nós construímos para você.
               </p>
