@@ -1,5 +1,5 @@
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -53,7 +53,9 @@ const HOURLY_RATE = 80; // R$
 // Form schema
 const formSchema = z.object({
   serviceType: z.enum(["team", "project"]),
-  applicationType: z.string(),
+  applicationType: z.string().min(1, {
+    message: "Por favor selecione o tipo de aplicação",
+  }),
   detailLevel: z.enum(["simple", "detailed"]),
   projectName: z.string().min(3, {
     message: "Nome do projeto deve ter pelo menos 3 caracteres",
@@ -63,9 +65,13 @@ const formSchema = z.object({
   }),
   developerCount: z.coerce.number().min(1, {
     message: "É necessário pelo menos 1 desenvolvedor",
+  }).max(5, {
+    message: "Máximo de 5 desenvolvedores permitido",
   }),
   featureCount: z.coerce.number().min(1, {
     message: "É necessário pelo menos 1 funcionalidade",
+  }).max(100, {
+    message: "Máximo de 100 funcionalidades permitido",
   }),
   integrationCount: z.coerce.number().optional(),
   simultaneousAccessCount: z.coerce.number().optional(),
@@ -88,28 +94,48 @@ const Calculator = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       serviceType: "project",
+      applicationType: "",
       detailLevel: "simple",
+      projectName: "",
+      projectDescription: "",
       developerCount: 1,
       featureCount: 1,
+      integrationCount: 0,
+      simultaneousAccessCount: 0,
+      database: "",
+      serverCount: 0,
+      notificationCount: 0,
     },
   });
 
   const detailLevel = form.watch("detailLevel");
-  const serviceType = form.watch("serviceType");
+  const developerCount = form.watch("developerCount");
+  const featureCount = form.watch("featureCount");
 
-  const calculateProjectCost = (data: FormValues) => {
+  useEffect(() => {
+    const formData = form.getValues();
+    if (formData.developerCount > 0 && formData.featureCount > 0) {
+      calculateProjectCost(formData, false);
+    }
+  }, [developerCount, featureCount]);
+
+  const calculateProjectCost = (data: FormValues, changeResults: boolean = true) => {
     // Calculate project cost
-    const cost = data.featureCount * HOURS_PER_FEATURE * (data.developerCount * HOURLY_RATE);
+    const baseCost = data.featureCount * HOURS_PER_FEATURE * (data.developerCount * HOURLY_RATE);
+    const cost = Math.round(Math.ceil(baseCost ** 1.02) / 10) * 10;
     
     // Calculate timeline in days
-    const timeline = Math.ceil((data.featureCount * (HOURS_PER_FEATURE / data.developerCount)) / WORK_HOURS_PER_DAY);
+    const baseTimeline = Math.ceil((data.featureCount * (HOURS_PER_FEATURE / data.developerCount)) / WORK_HOURS_PER_DAY);
+    const timeline = baseTimeline + Math.ceil(baseTimeline / 3);
     
     setCalculation({
       cost,
       timeline
     });
     
-    setShowResults(true);
+    if (changeResults) {
+      setShowResults(true);
+    }
   };
 
   const onSubmit = (data: FormValues) => {
@@ -145,7 +171,7 @@ const Calculator = () => {
           <div className="flex items-center">
             <div className="flex items-center">
               <img 
-                src="/lovable-uploads/847c6a8f-772f-4682-a772-75e2022e09ca.png" 
+                src="/assets/logo.png" 
                 alt="COSSOFTWARE" 
                 className="h-10 mr-2"
               />
@@ -155,18 +181,18 @@ const Calculator = () => {
           
           {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-8">
-            <a href="/" className="nav-link">
+            <Link to="/" className="nav-link">
               <span className="flex items-center gap-1">
                 <Home size={16} />
                 Home
               </span>
-            </a>
-            <a href="#calculator" className="nav-link">
+            </Link>
+            <Link to="/calculator" className="nav-link">
               <span className="flex items-center gap-1">
                 <CalculatorIcon size={16} />
                 Calculadora
               </span>
-            </a>
+            </Link>
           </nav>
           
           {/* Mobile Menu Button */}
@@ -182,8 +208,8 @@ const Calculator = () => {
         {mobileMenuOpen && (
           <div className="md:hidden bg-white shadow-lg">
             <div className="container mx-auto px-4 py-4 flex flex-col space-y-4">
-              <a 
-                href="/" 
+              <Link 
+                to="/" 
                 className="block py-2 nav-link"
                 onClick={() => setMobileMenuOpen(false)}
               >
@@ -191,9 +217,9 @@ const Calculator = () => {
                   <Home size={16} />
                   Home
                 </span>
-              </a>
-              <a 
-                href="#calculator" 
+              </Link>
+              <Link 
+                to="/calculator" 
                 className="block py-2 nav-link"
                 onClick={() => setMobileMenuOpen(false)}
               >
@@ -201,14 +227,14 @@ const Calculator = () => {
                   <CalculatorIcon size={16} />
                   Calculadora
                 </span>
-              </a>
+              </Link>
             </div>
           </div>
         )}
       </header>
 
       <main className="flex-grow pt-20">
-        <section id="calculator" className="section-padding bg-white">
+        <section id="calculator" className="bg-white">
           <div className="container mx-auto px-4 md:px-6 py-12">
             <div className="max-w-3xl mx-auto">
               <h1 className="text-3xl md:text-4xl font-bold mb-8 text-center">Calculadora de Serviços</h1>
@@ -276,7 +302,7 @@ const Calculator = () => {
                         )}
                       />
 
-                      <FormField
+                      {/* <FormField
                         control={form.control}
                         name="detailLevel"
                         render={({ field }) => (
@@ -305,7 +331,7 @@ const Calculator = () => {
                             <FormMessage />
                           </FormItem>
                         )}
-                      />
+                      /> */}
 
                       <div className="border-t pt-6">
                         <h3 className="text-lg font-medium mb-4">Informações do Projeto</h3>
@@ -350,7 +376,12 @@ const Calculator = () => {
                                 <FormItem>
                                   <FormLabel>Quantidade de Desenvolvedores</FormLabel>
                                   <FormControl>
-                                    <Input type="number" min="1" {...field} />
+                                    <Input 
+                                      type="number" 
+                                      min="1" 
+                                      max="5" 
+                                      {...field} 
+                                    />
                                   </FormControl>
                                   <FormMessage />
                                 </FormItem>
@@ -364,7 +395,12 @@ const Calculator = () => {
                                 <FormItem>
                                   <FormLabel>Quantidade de Funcionalidades</FormLabel>
                                   <FormControl>
-                                    <Input type="number" min="1" {...field} />
+                                    <Input 
+                                      type="number" 
+                                      min="1" 
+                                      max="100" 
+                                      {...field} 
+                                    />
                                   </FormControl>
                                   <FormMessage />
                                 </FormItem>
@@ -499,24 +535,6 @@ const Calculator = () => {
                         </p>
                       </div>
                     </div>
-
-                    <Collapsible className="mt-6">
-                      <CollapsibleTrigger className="flex items-center gap-2 text-primary font-medium w-full justify-center py-2">
-                        <span>Ver detalhes do cálculo</span>
-                      </CollapsibleTrigger>
-                      <CollapsibleContent className="p-4 bg-gray-50 rounded-lg mt-2">
-                        <h4 className="font-medium mb-2">Fórmulas utilizadas:</h4>
-                        <div className="space-y-2 text-sm">
-                          <p><strong>Valor do projeto:</strong> Quantidade de funcionalidades × Tempo por funcionalidade × (Número de desenvolvedores × Valor/hora)</p>
-                          <p><strong>Prazo de entrega:</strong> (Quantidade de funcionalidades × (Tempo por funcionalidade ÷ Número de desenvolvedores)) ÷ Horas de trabalho diário</p>
-                          <div className="mt-4 space-y-1">
-                            <p>• Tempo para fazer uma funcionalidade: {HOURS_PER_FEATURE} horas</p>
-                            <p>• Tempo de trabalho diário: {WORK_HOURS_PER_DAY} horas</p>
-                            <p>• Valor da hora do desenvolvedor: R$ {HOURLY_RATE},00</p>
-                          </div>
-                        </div>
-                      </CollapsibleContent>
-                    </Collapsible>
                   </CardContent>
                   <CardFooter className="flex flex-col items-center">
                     <p className="text-center text-sm text-gray-500 mb-4">
@@ -526,7 +544,7 @@ const Calculator = () => {
                       <Button variant="outline" onClick={() => setShowResults(false)}>
                         Voltar ao Formulário
                       </Button>
-                      <a href="/#contact">
+                      <a href="https://wa.me/5567993369450">
                         <Button>
                           Entrar em Contato
                         </Button>
@@ -547,7 +565,7 @@ const Calculator = () => {
             <div>
               <div className="flex items-center mb-4">
                 <img 
-                  src="/lovable-uploads/847c6a8f-772f-4682-a772-75e2022e09ca.png" 
+                  src="/assets/logo.png" 
                   alt="COSSOFTWARE" 
                   className="h-8 mr-2"
                 />

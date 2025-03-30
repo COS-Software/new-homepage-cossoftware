@@ -1,5 +1,5 @@
-
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { 
   Home, 
@@ -88,7 +88,7 @@ const Index = () => {
           <div className="flex items-center">
             <div className="flex items-center">
               <img 
-                src="/lovable-uploads/847c6a8f-772f-4682-a772-75e2022e09ca.png" 
+                src="/assets/logo.png" 
                 alt="COSSOFTWARE" 
                 className="h-10 mr-2"
               />
@@ -98,18 +98,18 @@ const Index = () => {
           
           {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-8">
-            <a href="#home" className="nav-link">
+            <Link to="/" className="nav-link">
               <span className="flex items-center gap-1">
                 <Home size={16} />
                 Home
               </span>
-            </a>
-            <a href="#calculator" className="nav-link">
+            </Link>
+            <Link to="/calculator" className="nav-link">
               <span className="flex items-center gap-1">
                 <Calculator size={16} />
                 Calculadora
               </span>
-            </a>
+            </Link>
           </nav>
           
           {/* Mobile Menu Button */}
@@ -125,8 +125,8 @@ const Index = () => {
         {mobileMenuOpen && (
           <div className="md:hidden bg-white shadow-lg">
             <div className="container mx-auto px-4 py-4 flex flex-col space-y-4">
-              <a 
-                href="#home" 
+              <Link 
+                to="/" 
                 className="block py-2 nav-link"
                 onClick={() => setMobileMenuOpen(false)}
               >
@@ -134,9 +134,9 @@ const Index = () => {
                   <Home size={16} />
                   Home
                 </span>
-              </a>
-              <a 
-                href="#calculator" 
+              </Link>
+              <Link 
+                to="/calculator" 
                 className="block py-2 nav-link"
                 onClick={() => setMobileMenuOpen(false)}
               >
@@ -144,7 +144,7 @@ const Index = () => {
                   <Calculator size={16} />
                   Calculadora
                 </span>
-              </a>
+              </Link>
             </div>
           </div>
         )}
@@ -305,17 +305,6 @@ const Index = () => {
             </div>
           </div>
         </section>
-
-        {/* Calculator Section */}
-        <section id="calculator" className="section-padding bg-white relative overflow-hidden">
-          <div className="absolute -left-20 top-1/2 w-64 h-64 rounded-full bg-primary/5 animate-float animation-delay-2000"></div>
-          <div className="container mx-auto relative z-10">
-            <h2 className="section-title animate-fade-in">Calculadora de Serviços</h2>
-            <p className="text-center max-w-3xl mx-auto mb-8 animate-fade-in">
-              Esta seção será implementada posteriormente. Aqui os clientes poderão calcular estimativas de preços para nossos serviços.
-            </p>
-          </div>
-        </section>
       </main>
 
       {/* Footer with enhanced animation */}
@@ -326,7 +315,7 @@ const Index = () => {
             <div>
               <div className="flex items-center mb-4">
                 <img 
-                  src="/lovable-uploads/847c6a8f-772f-4682-a772-75e2022e09ca.png" 
+                  src="/assets/logo.png" 
                   alt="COSSOFTWARE" 
                   className="h-8 mr-2"
                 />
