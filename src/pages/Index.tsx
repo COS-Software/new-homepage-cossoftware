@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { 
@@ -11,30 +11,15 @@ import {
   ShoppingCart, 
   Gamepad,
   Database,
-  Menu,
-  X,
   ExternalLink
 } from "lucide-react";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
 
 const Index = () => {
-  const [scrollY, setScrollY] = useState(0);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  // Animation delay for staggered elements
   const getAnimationDelay = (index: number) => {
     return { animationDelay: `${index * 0.1}s` };
   };
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
 
   const services = [
     {
@@ -88,49 +73,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      {/* Header with enhanced transition */}
-      <header className={`fixed w-full z-50 transition-all duration-500 ${scrollY > 50 ? 'bg-white shadow-md py-2' : 'py-4'}`}>
-        <div className="container mx-auto px-4 md:px-6 flex justify-between items-center">
-          <div className="flex items-center">
-            <div className="flex items-center">
-              <img 
-                src="/assets/logo.png" 
-                alt="COSSOFTWARE" 
-                className="h-10 mr-2"
-              />
-              <h1 className="text-2xl font-bold text-primary">COSSOFTWARE</h1>
-            </div>
-          </div>
-          
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-8">
-            <Link to="/" className="nav-link">Home</Link>
-            <a href="#clients" className="nav-link">Produtos</a>
-            <a href="#technologies" className="nav-link">Tecnologias</a>
-            <Link to="/calculator" className="nav-link">Calculadora</Link>
-          </nav>
-          
-          {/* Mobile Menu Button */}
-          <button 
-            className="md:hidden text-primary"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
-        
-        {/* Mobile Navigation */}
-        {mobileMenuOpen && (
-          <div className="md:hidden bg-white shadow-lg">
-            <div className="container mx-auto px-4 py-4 flex flex-col space-y-4">
-              <Link to="/" className="block py-2 nav-link" onClick={() => setMobileMenuOpen(false)}>Home</Link>
-              <a href="#clients" className="block py-2 nav-link" onClick={() => setMobileMenuOpen(false)}>Produtos</a>
-              <a href="#technologies" className="block py-2 nav-link" onClick={() => setMobileMenuOpen(false)}>Tecnologias</a>
-              <Link to="/calculator" className="block py-2 nav-link" onClick={() => setMobileMenuOpen(false)}>Calculadora</Link>
-            </div>
-          </div>
-        )}
-      </header>
+      <Header />
 
       <main>
         {/* Hero Section with enhanced animations */}
@@ -339,60 +282,7 @@ const Index = () => {
         </section>
       </main>
 
-      {/* Footer with enhanced animation */}
-      <footer className="bg-gray-900 text-white py-12 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-20"></div>
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div>
-              <div className="flex items-center mb-4">
-                <img 
-                  src="/assets/logo.png" 
-                  alt="COSSOFTWARE" 
-                  className="h-8 mr-2"
-                />
-                <h3 className="text-xl font-bold">COSSOFTWARE</h3>
-              </div>
-              <p className="text-gray-400">
-                Pense. Nós construímos para você.
-              </p>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Links Rápidos</h3>
-              <ul className="space-y-2">
-                <li><a href="#home" className="text-gray-400 hover:text-white transition-colors">Home</a></li>
-                <li><a href="#services" className="text-gray-400 hover:text-white transition-colors">Serviços</a></li>
-                <li><a href="#clients" className="text-gray-400 hover:text-white transition-colors">Produtos</a></li>
-                <li><a href="#technologies" className="text-gray-400 hover:text-white transition-colors">Tecnologias</a></li>
-                <li><a href="#contact" className="text-gray-400 hover:text-white transition-colors">Contato</a></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Contato</h3>
-              <ul className="space-y-2">
-                <li className="flex items-center gap-2 text-gray-400">
-                  <Phone size={16} />
-                  <span>+55 67 9129-8385</span>
-                </li>
-                <li className="flex items-center gap-2 text-gray-400">
-                  <Mail size={16} />
-                  <span>contato@cossoftware.com</span>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Endereço</h3>
-              <p className="text-gray-400">
-                Rua Paranaíba, nº 237, Centro, 3º andar – Três Lagoas/MS
-              </p>
-            </div>
-          </div>
-          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2021-2026 COSSOFTWARE. Todos os direitos reservados.</p>
-            <p className="mt-2">CNPJ: 43.943.493/0001-06</p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };

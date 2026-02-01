@@ -6,7 +6,8 @@ import type {
 } from "@/components/ui/toast"
 
 const TOAST_LIMIT = 1
-const TOAST_REMOVE_DELAY = 1000000
+const TOAST_REMOVE_DELAY = 1000
+const DEFAULT_DURATION = 3000
 
 type ToasterToast = ToastProps & {
   id: string
@@ -155,6 +156,7 @@ function toast({ ...props }: Toast) {
       ...props,
       id,
       open: true,
+      duration: props.duration ?? DEFAULT_DURATION,
       onOpenChange: (open) => {
         if (!open) dismiss()
       },
