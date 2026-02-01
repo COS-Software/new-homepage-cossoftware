@@ -141,6 +141,16 @@ export default {
 					'100%': {
 						backgroundPosition: '200% 0'
 					}
+				},
+				'scale-in': {
+					'0%': {
+						opacity: '0',
+						transform: 'scale(0.95) translateY(10px)'
+					},
+					'100%': {
+						opacity: '1',
+						transform: 'scale(1) translateY(0)'
+					}
 				}
 			},
 			animation: {
@@ -149,6 +159,7 @@ export default {
 				'fade-in': 'fade-in 0.5s ease-out forwards',
 				'slide-in': 'slide-in 0.5s ease-out forwards',
 				'slide-up': 'slide-up 0.5s ease-out forwards',
+				'scale-in': 'scale-in 0.4s ease-out forwards',
 				'float': 'float 6s ease-in-out infinite',
 				'pulse-slow': 'pulse-slow 4s ease-in-out infinite',
 				'bounce-subtle': 'bounce-subtle 2s ease-in-out infinite',

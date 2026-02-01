@@ -2,8 +2,6 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { 
-  Home, 
-  Calculator, 
   Phone, 
   Mail, 
   MapPin, 
@@ -14,7 +12,8 @@ import {
   Gamepad,
   Database,
   Menu,
-  X
+  X,
+  ExternalLink
 } from "lucide-react";
 
 const Index = () => {
@@ -70,14 +69,21 @@ const Index = () => {
     },
   ];
 
-  const clients = [
-    "Claro", 
-    "Point do Chinelo", 
-    "Vivendo Ciência", 
-    "Violin Conservatory", 
-    "ColaAqui", 
-    "OnCenterChat", 
-    "Blog Do Chris"
+  const products = [
+    { img: "/assets/clientes/341028288_915872326387209_5194747744176783643_n.jpg", title: "Vivendo Ciência", description: "Materiais de Ensino de Ciências e Biologia.", link: "https://vivendociencia.com.br/" },
+    { img: "/assets/clientes/315668972_827726428274104_4378133375194152941_n.jpg", title: "Violin Conservatory", description: "Portal de uma escola de violino nigeriana", link: "https://www.violin-conservatory.com/" },
+    { img: "/assets/clientes/LogoClaro2017.png", title: "Claro TL", description: "Automatização dos disparos para clientes" },
+    { img: "/assets/clientes/pc.png", imgMaxSize: "70%", title: "Point do Chinelo", description: "Loja online da Point do Chinelo", link: "http://pointdochinelo.com/" },
+    { img: "/assets/clientes/Default logo.png", title: "ColaAqui", description: "App de Role e Bilheteria", link: "http://cola-aqui.com/" },
+    { img: "/assets/clientes/logo.4fe47245.svg", imgMaxSize: "80%", title: "OnCenterChat", description: "Plataforma de Disparo de Mensagens", link: "https://www.oncenterchat.com.br" },
+    { img: "/assets/clientes/logo.9166e658.svg", title: "Blog Do Chris", description: "Sistema de blog", link: "https://blogdochris.com/" },
+    { img: "/assets/clientes/logo-menu.0bc67f91.png", imgMaxSize: "80%", title: "Khaos - Centro Científico", description: "Sistema de Postagem Científicas", link: "https://khaos.academy/" },
+    { img: "/assets/clientes/Screenshot_3-removebg-preview.png", imgMaxSize: "80%", title: "Força em rede", description: "Rede social para portadores de doenças oncológicas — SITE e APP", link: "https://forcaemrede.com.br/" },
+  ];
+
+  const technologies = [
+    "angular", "bs", "c", "cpp", "cs", "dart", "flutter", "go", "java", "jquery", "js", "kotlin",
+    "mongo", "mysql", "nextjs", "node", "oracle", "pgsql", "php", "python", "react", "sass", "sqlserver", "typescript", "vue"
   ];
 
   return (
@@ -98,18 +104,10 @@ const Index = () => {
           
           {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-8">
-            <Link to="/" className="nav-link">
-              <span className="flex items-center gap-1">
-                <Home size={16} />
-                Home
-              </span>
-            </Link>
-            <Link to="/calculator" className="nav-link">
-              <span className="flex items-center gap-1">
-                <Calculator size={16} />
-                Calculadora
-              </span>
-            </Link>
+            <Link to="/" className="nav-link">Home</Link>
+            <a href="#clients" className="nav-link">Produtos</a>
+            <a href="#technologies" className="nav-link">Tecnologias</a>
+            <Link to="/calculator" className="nav-link">Calculadora</Link>
           </nav>
           
           {/* Mobile Menu Button */}
@@ -125,26 +123,10 @@ const Index = () => {
         {mobileMenuOpen && (
           <div className="md:hidden bg-white shadow-lg">
             <div className="container mx-auto px-4 py-4 flex flex-col space-y-4">
-              <Link 
-                to="/" 
-                className="block py-2 nav-link"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <span className="flex items-center gap-2">
-                  <Home size={16} />
-                  Home
-                </span>
-              </Link>
-              <Link 
-                to="/calculator" 
-                className="block py-2 nav-link"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <span className="flex items-center gap-2">
-                  <Calculator size={16} />
-                  Calculadora
-                </span>
-              </Link>
+              <Link to="/" className="block py-2 nav-link" onClick={() => setMobileMenuOpen(false)}>Home</Link>
+              <a href="#clients" className="block py-2 nav-link" onClick={() => setMobileMenuOpen(false)}>Produtos</a>
+              <a href="#technologies" className="block py-2 nav-link" onClick={() => setMobileMenuOpen(false)}>Tecnologias</a>
+              <Link to="/calculator" className="block py-2 nav-link" onClick={() => setMobileMenuOpen(false)}>Calculadora</Link>
             </div>
           </div>
         )}
@@ -166,11 +148,11 @@ const Index = () => {
                 Uma empresa de negócios voltada para a produção de software sob demanda.
               </p>
               <div className="animate-bounce-subtle" style={getAnimationDelay(3)}>
-                <a href="#calculator">
+                <Link to="/calculator">
                   <Button className="button-primary transform transition hover:scale-105">
                     Calculadora de Serviços
                   </Button>
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -223,20 +205,70 @@ const Index = () => {
           </div>
         </section>
 
-        {/* Clients Section */}
+        {/* Products / Clients Section */}
         <section id="clients" className="section-padding bg-white relative overflow-hidden">
           <div className="absolute -right-32 bottom-20 w-64 h-64 rounded-full bg-secondary/5 animate-float animation-delay-1500"></div>
           <div className="container mx-auto relative z-10">
-            <h2 className="section-title animate-fade-in">Nossos Clientes</h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mt-12">
-              {clients.map((client, index) => (
-                <div key={index} className="flex items-center justify-center animate-fade-in" style={getAnimationDelay(index % 4)}>
-                  <div className="client-logo bg-gray-100 h-32 w-full rounded-lg flex items-center justify-center p-6 transform transition duration-300 hover:shadow-lg">
-                    <span className="text-xl font-semibold text-secondary">{client}</span>
+            <h2 className="section-title animate-fade-in">Conheça nossos produtos</h2>
+            <p className="section-subtitle animate-fade-in">Programas e parceiros desenvolvidos pela COSSOFTWARE</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
+              {products.map((product, index) => (
+                <div
+                  key={index}
+                  className="service-card animate-fade-in flex flex-col"
+                  style={getAnimationDelay(index % 6)}
+                >
+                  <div className="h-40 rounded-t-lg bg-gray-50 flex items-center justify-center p-6 overflow-hidden">
+                    <img
+                      src={product.img}
+                      alt={product.title}
+                      className="max-h-full w-auto object-contain"
+                      style={product.imgMaxSize ? { maxWidth: product.imgMaxSize } : undefined}
+                    />
+                  </div>
+                  <div className="p-6 flex flex-col flex-1">
+                    <h3 className="text-xl font-semibold mb-2">{product.title}</h3>
+                    <p className="text-gray-600 text-sm flex-1">{product.description}</p>
+                    {product.link && (
+                      <a
+                        href={product.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-4 inline-flex items-center gap-2 text-primary font-medium hover:underline text-sm"
+                      >
+                        Conhecer
+                        <ExternalLink size={14} />
+                      </a>
+                    )}
                   </div>
                 </div>
               ))}
             </div>
+          </div>
+        </section>
+
+        {/* Technologies Section */}
+        <section id="technologies" className="section-padding bg-gray-50 relative overflow-hidden">
+          <div className="absolute -left-32 top-20 w-80 h-80 rounded-full bg-primary/5 animate-float animation-delay-500"></div>
+          <div className="container mx-auto relative z-10">
+            <h2 className="section-title animate-fade-in">Nossas tecnologias</h2>
+            <div className="flex flex-wrap justify-center gap-6 md:gap-8 mt-12">
+              {technologies.map((tech, index) => (
+                <div
+                  key={tech}
+                  className="w-16 h-16 md:w-20 md:h-20 rounded-xl bg-white shadow-md flex items-center justify-center p-2 hover:shadow-lg hover:scale-105 transition-all duration-300 animate-fade-in border border-gray-100"
+                  style={getAnimationDelay(index % 12)}
+                  title={tech}
+                >
+                  <img
+                    src={`/assets/linguagens/${tech === "sqlserver" ? "sqlserver.svg" : `${tech}.png`}`}
+                    alt={tech}
+                    className="max-w-full max-h-full object-contain"
+                  />
+                </div>
+              ))}
+            </div>
+            <p className="text-center text-lg font-semibold text-muted-foreground mt-10 animate-fade-in">E MUITO MAIS...</p>
           </div>
         </section>
 
@@ -245,22 +277,22 @@ const Index = () => {
           <div className="absolute left-1/2 top-0 w-96 h-96 -translate-x-1/2 rounded-full bg-gradient-to-b from-primary/5 to-secondary/5 blur-3xl opacity-30 animate-pulse-slow"></div>
           <div className="container mx-auto relative z-10">
             <h2 className="section-title animate-fade-in">Entre em Contato</h2>
-            <div className="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-md animate-fade-in transform hover:shadow-lg transition duration-300">
+            <div className="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-md animate-fade-in transform hover:shadow-lg transition duration-300">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div>
                   <h3 className="text-xl font-semibold mb-6">Informações de Contato</h3>
                   <div className="space-y-4">
                     <div className="contact-item">
                       <Phone className="h-5 w-5 text-primary" />
-                      <span>+55 (67) 99336-9450</span>
+                      <span>+55 67 9129-8385</span>
                     </div>
                     <div className="contact-item">
                       <Mail className="h-5 w-5 text-primary" />
-                      <span>cossoftware11@gmail.com</span>
+                      <span>contato@cossoftware.com</span>
                     </div>
                     <div className="contact-item">
                       <MapPin className="h-5 w-5 text-primary" />
-                      <span>Rua Graça Aranha, 1986, JD Dourados, Três Lagoas, MS</span>
+                      <span>Rua Paranaíba, nº 237, Centro, 3º andar – Três Lagoas/MS</span>
                     </div>
                     <div className="contact-item">
                       <span className="text-sm font-medium">CNPJ:</span>
@@ -330,7 +362,8 @@ const Index = () => {
               <ul className="space-y-2">
                 <li><a href="#home" className="text-gray-400 hover:text-white transition-colors">Home</a></li>
                 <li><a href="#services" className="text-gray-400 hover:text-white transition-colors">Serviços</a></li>
-                <li><a href="#clients" className="text-gray-400 hover:text-white transition-colors">Clientes</a></li>
+                <li><a href="#clients" className="text-gray-400 hover:text-white transition-colors">Produtos</a></li>
+                <li><a href="#technologies" className="text-gray-400 hover:text-white transition-colors">Tecnologias</a></li>
                 <li><a href="#contact" className="text-gray-400 hover:text-white transition-colors">Contato</a></li>
               </ul>
             </div>
@@ -339,25 +372,23 @@ const Index = () => {
               <ul className="space-y-2">
                 <li className="flex items-center gap-2 text-gray-400">
                   <Phone size={16} />
-                  <span>+55 (67) 99336-9450</span>
+                  <span>+55 67 9129-8385</span>
                 </li>
                 <li className="flex items-center gap-2 text-gray-400">
                   <Mail size={16} />
-                  <span>cossoftware11@gmail.com</span>
+                  <span>contato@cossoftware.com</span>
                 </li>
               </ul>
             </div>
             <div>
               <h3 className="text-lg font-semibold mb-4">Endereço</h3>
               <p className="text-gray-400">
-                Rua Graça Aranha, 1986<br />
-                JD Dourados<br />
-                Três Lagoas, MS
+                Rua Paranaíba, nº 237, Centro, 3º andar – Três Lagoas/MS
               </p>
             </div>
           </div>
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2021-2025 COSSOFTWARE. Todos os direitos reservados.</p>
+            <p>&copy; 2021-2026 COSSOFTWARE. Todos os direitos reservados.</p>
             <p className="mt-2">CNPJ: 43.943.493/0001-06</p>
           </div>
         </div>
