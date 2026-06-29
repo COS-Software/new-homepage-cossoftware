@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import Footer from "@/components/layout/Footer";
+import Seo from "@/components/seo/Seo";
 import { CreditCard, QrCode, Lock, Shield, Check } from "lucide-react";
 
 const Payment = () => {
@@ -21,6 +22,12 @@ const Payment = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <Seo
+        title={`Pagamento — ${productName}`}
+        description="Página de pagamento seguro da COSSOFTWARE."
+        path={`/payment/${client ?? ""}`}
+        noindex
+      />
       <main className="flex-grow">
         <section className="bg-white py-12">
           <div className="container mx-auto px-4">

@@ -26,8 +26,8 @@ export function CalculatorForm({ form, onSubmit }: CalculatorFormProps) {
   };
 
   return (
-    <Card className="border-0 shadow-lg shadow-gray-200/50 overflow-hidden animate-fade-in">
-      <CardHeader className="bg-gradient-to-r from-primary/5 to-primary/10 border-b">
+    <Card className="glass-card overflow-hidden animate-fade-in">
+      <CardHeader className="bg-gradient-to-r from-primary/10 to-accent/10 border-b bd-line">
         <CardTitle className="flex items-center gap-2">
           <CalculatorIcon className="h-5 w-5 text-primary" />
           Dados do Projeto

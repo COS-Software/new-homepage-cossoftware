@@ -41,7 +41,7 @@ export function ServiceFields({ control }: ServiceFieldsProps) {
                   className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all hover:border-primary/50 hover:bg-primary/5 ${
                     field.value === "team"
                       ? "border-primary bg-primary/5"
-                      : "border-gray-200"
+                      : "bd-line"
                   }`}
                 >
                   <RadioGroupItem value="team" id="team" className="shrink-0" />
@@ -54,7 +54,7 @@ export function ServiceFields({ control }: ServiceFieldsProps) {
                   className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all hover:border-primary/50 hover:bg-primary/5 ${
                     field.value === "project"
                       ? "border-primary bg-primary/5"
-                      : "border-gray-200"
+                      : "bd-line"
                   }`}
                 >
                   <RadioGroupItem value="project" id="project" className="shrink-0" />

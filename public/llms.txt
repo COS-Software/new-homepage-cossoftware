@@ -1,0 +1,44 @@
+# COSSOFTWARE
+
+> A COSSOFTWARE é uma empresa brasileira de desenvolvimento de software sob demanda, fundada em 2021 e sediada em Três Lagoas, Mato Grosso do Sul (MS). Atende empresas de todos os tamanhos em todo o Brasil, do conceito à execução, com estimativa de custo e prazo em tempo real.
+
+## Sobre
+
+- **Nome:** COSSOFTWARE (COS Software)
+- **Fundação:** 2021
+- **Sede:** Rua Paranaíba, nº 237, Centro, 3º andar — Três Lagoas/MS, Brasil
+- **CNPJ:** 43.943.493/0001-06
+- **E-mail:** contato@cossoftware.com
+- **Telefone:** +55 67 9129-8385
+- **Site:** https://cossoftware.com
+- **Slogan:** "Pense. Nós construímos para você."
+- **Missão:** Entregar soluções de software personalizadas que realmente fazem a diferença para os clientes.
+
+## Serviços
+
+- **Desenvolvimento Web:** sites e aplicações web modernas, rápidas e responsivas.
+- **Aplicativos Móveis:** apps nativos e híbridos para iOS e Android.
+- **Integração de Sistemas:** conexão entre sistemas e APIs para automatizar processos.
+- **E-commerce:** plataformas de vendas online sob medida.
+- **Desenvolvimento de Jogos:** jogos 2D e 3D para diversas plataformas.
+- **Aplicações Empresariais:** sistemas sob medida para gestão e processos empresariais.
+
+## Tecnologias
+
+React, Angular, Vue, Next.js, Node.js, Python, Java, Kotlin, Dart/Flutter, PHP, Go, C, C++, C#, JavaScript, TypeScript, jQuery, Sass, Bootstrap. Bancos de dados: PostgreSQL, MySQL, SQL Server, Oracle, MongoDB.
+
+## Orçamento e prazos
+
+- A estimativa de custo e prazo depende do tipo de aplicação, número de funcionalidades e complexidade do projeto.
+- A [Calculadora de Serviços](https://cossoftware.com/calculator) gera uma estimativa gratuita e instantânea, sem compromisso.
+
+## Perguntas frequentes
+
+- **O que a COSSOFTWARE faz?** Desenvolve software sob demanda: sites, apps móveis, e-commerce, sistemas empresariais, jogos e integrações.
+- **Atende todo o Brasil?** Sim, com atendimento remoto em todas as etapas do projeto.
+- **Como solicitar orçamento?** Pela Calculadora de Serviços no site ou pelo e-mail contato@cossoftware.com e telefone +55 67 9129-8385.
+
+## Links
+
+- Site: https://cossoftware.com
+- Calculadora de Serviços: https://cossoftware.com/calculator

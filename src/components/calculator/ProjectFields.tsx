@@ -16,11 +16,11 @@ type ProjectFieldsProps = {
 
 export function ProjectFields({ control }: ProjectFieldsProps) {
   return (
-    <div className="border-t border-gray-200 pt-6">
-      <h3 className="text-base font-semibold mb-1 flex items-center gap-2">
+    <div>
+      <h2 className="text-base font-semibold mb-1 flex items-center gap-2">
         <span className="w-1 h-5 rounded-full bg-primary" />
         Informações do Projeto
-      </h3>
+      </h2>
       <p className="text-sm text-muted-foreground mb-4">
         Nome, descrição e parâmetros para o cálculo.
       </p>

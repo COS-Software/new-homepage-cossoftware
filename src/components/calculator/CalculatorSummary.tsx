@@ -1,4 +1,11 @@
-import { Calculator as CalculatorIcon, Clock, DollarSign } from "lucide-react";
+import {
+  Calculator as CalculatorIcon,
+  Clock,
+  DollarSign,
+  Loader2,
+  CheckCircle2,
+  ArrowRight,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -12,20 +19,18 @@ import type { CalculationResult } from "./calculateProjectCost";
 type CalculatorSummaryProps = {
   calculation: CalculationResult;
   onSendBudget: () => void;
-  onWhatsAppContact: () => void;
   isSending: boolean;
 };
 
 export function CalculatorSummary({
   calculation,
   onSendBudget,
-  onWhatsAppContact,
   isSending,
 }: CalculatorSummaryProps) {
   return (
     <div className="lg:sticky lg:top-24 animate-fade-in">
-      <Card className="border-2 border-primary/10 shadow-lg overflow-hidden">
-        <CardHeader className="bg-gradient-to-b from-primary/10 to-transparent pb-4">
+      <Card className="glass-card overflow-hidden">
+        <CardHeader className="bg-gradient-to-b from-primary/15 to-transparent pb-4 border-b bd-line">
           <CardTitle className="text-base flex items-center gap-2">
             <CalculatorIcon className="h-4 w-4 text-primary" />
             Resumo em tempo real
@@ -54,25 +59,24 @@ export function CalculatorSummary({
               {calculation.timeline === 1 ? "dia" : "dias"}
             </p>
           </div>
-          <p className="text-xs text-muted-foreground">
-            Orçamento estimado. Para valor fechado, entre em contato.
-          </p>
-          <Button
-            type="button"
-            onClick={onWhatsAppContact}
-            disabled={isSending}
-            className="w-full rounded-lg bg-green-600 hover:bg-green-700"
-          >
-            {isSending ? "Enviando..." : "Entrar em Contato (WhatsApp)"}
-          </Button>
           <Button
             type="button"
             onClick={onSendBudget}
             disabled={isSending}
-            className="w-full rounded-lg mt-3 bg-primary hover:bg-primary/90 text-primary-foreground"
+            className="w-full rounded-lg button-primary"
             title="Enviar orçamento para análise"
           >
-            {isSending ? "Enviando..." : "Enviar orçamento para análise"}
+            {isSending ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Enviando...
+              </>
+            ) : (
+              <>
+                Enviar orçamento
+                <ArrowRight className="ml-1 h-4 w-4" />
+              </>
+            )}
           </Button>
         </CardContent>
       </Card>

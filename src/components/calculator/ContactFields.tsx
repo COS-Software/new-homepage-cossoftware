@@ -15,7 +15,7 @@ type ContactFieldsProps = {
 
 export function ContactFields({ control }: ContactFieldsProps) {
   return (
-    <div className="border-b border-gray-200 pb-6">
+    <div>
       <h3 className="text-base font-semibold mb-1 flex items-center gap-2">
         <span className="w-1 h-5 rounded-full bg-primary" />
         Dados do Contato

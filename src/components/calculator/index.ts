@@ -1,4 +1,5 @@
 export { CalculatorForm } from "./CalculatorForm";
+export { CalculatorWizard } from "./CalculatorWizard";
 export { CalculatorSummary } from "./CalculatorSummary";
 export { ContactFields } from "./ContactFields";
 export { ProjectFields } from "./ProjectFields";
